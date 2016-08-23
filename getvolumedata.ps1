@@ -14,26 +14,26 @@ Catch {
 }
 
 $totSize = $vol.Size
-$totSizeGB = [math]::Round(([long]$totSize / 1073741824),2)
+$totSizeGB = "{0:N2}" -f [math]::Round(([long]$totSize / 1073741824),2)
 $freeSize = $vol.SizeRemaining
-$freeSizeGB = [math]::Round(([long]$freeSize / 1073741824), 2)
+$freeSizeGB = "{0:N2}" -f [math]::Round(([long]$freeSize / 1073741824), 2)
 $usedSize = $totSize - $freeSize
-$usedSizeGB = [math]::Round(([long]$usedSize / 1073741824), 2)
+$usedSizeGB = "{0:N2}" -f [math]::Round(([long]$usedSize / 1073741824), 2)
 $percentageUsed = [math]::Round(([long]$usedSize / [long]$totSize) * 100)
 $percentageFree = 100 - $percentageUsed
-$warnSizeGB = [math]::Round((([long]$totSize * $percentageWarning * 0.01) / 1073741824), 2)
-$errorSizeGB = [math]::Round((([long]$totSize * $percentageError * 0.01) / 1073741824), 2)
+$warnSizeGB = "{0:N2}" -f [math]::Round((([long]$totSize * $percentageWarning * 0.01) / 1073741824), 2)
+$errorSizeGB = "{0:N2}" -f [math]::Round((([long]$totSize * $percentageError * 0.01) / 1073741824), 2)
 
 if ($percentageUsed -gt $percentageError) {
-  Write-Host "CRITICAL: '$volumeLabel' - total: $totSizeGB Gb - used: $usedSizeGB GB ($percentageUsed%) - free $freeSizeGB Gb ($percentageFree%) | '${volumeLabel}: Used Space'=${usedSizeGB}Gb;${warnSizeGB};${errorSizeGB};0;${totSizeGB}"
+  Write-Host "CRITICAL: '$volumeLabel' - total: $totSizeGB Gb - used: $usedSizeGB GB ($percentageUsed%) - free $freeSizeGB Gb ($percentageFree%) | '${volumeLabel}: Used Space'=${usedSizeGB}GB;${warnSizeGB};${errorSizeGB};0,00;${totSizeGB}"
   Exit 2
 }
 elseif ($percentageUsed -gt $percentageWarning) {
-  Write-Host "WARNING: '$volumeLabel' - total: $totSizeGB Gb - used: $usedSizeGB GB ($percentageUsed%) - free $freeSizeGB Gb ($percentageFree%) | '${volumeLabel}: Used Space'=${usedSizeGB}Gb;${warnSizeGB};${errorSizeGB};0;${totSizeGB}"
+  Write-Host "WARNING: '$volumeLabel' - total: $totSizeGB Gb - used: $usedSizeGB GB ($percentageUsed%) - free $freeSizeGB Gb ($percentageFree%) | '${volumeLabel}: Used Space'=${usedSizeGB}GB;${warnSizeGB};${errorSizeGB};0,00;${totSizeGB}"
   Exit 1
 }
 else {
-  Write-Host "OK: '$volumeLabel' - total: $totSizeGB Gb - used: $usedSizeGB GB ($percentageUsed%) - free $freeSizeGB Gb ($percentageFree%) | '${volumeLabel}: Used Space'=${usedSizeGB}Gb;${warnSizeGB};${errorSizeGB};0;${totSizeGB}"
+  Write-Host "OK: '$volumeLabel' - total: $totSizeGB Gb - used: $usedSizeGB GB ($percentageUsed%) - free $freeSizeGB Gb ($percentageFree%) | '${volumeLabel}: Used Space'=${usedSizeGB}GB;${warnSizeGB};${errorSizeGB};0,00;${totSizeGB}"
   Exit 0
 }
 
